@@ -1,6 +1,7 @@
 env/
 data/
 dist/
+.vscode/
 
 .DS_Store
 

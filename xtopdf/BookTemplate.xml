@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<book>
+        <chapter name="Chapter 1">
+        Chapter 1 content here.
+        </chapter>
+
+        <chapter name="Chapter 2">
+        Chapter 2 content here.
+        </chapter>
+</book>

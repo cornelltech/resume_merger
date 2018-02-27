@@ -1,0 +1,115 @@
+%PDF-1.3
+%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+% 'BasicFonts': class PDFDictionary 
+1 0 obj
+% The standard fonts dictionary
+<< /F1 2 0 R
+ /F2 3 0 R >>
+endobj
+% 'F1': class PDFType1Font 
+2 0 obj
+% Font Helvetica
+<< /BaseFont /Helvetica
+ /Encoding /WinAnsiEncoding
+ /Name /F1
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F2': class PDFType1Font 
+3 0 obj
+% Font Courier
+<< /BaseFont /Courier
+ /Encoding /WinAnsiEncoding
+ /Name /F2
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'Page1': class PDFPage 
+4 0 obj
+% Page dictionary
+<< /Contents 8 0 R
+ /MediaBox [ 0
+  0
+  595.2756
+  841.8898 ]
+ /Parent 7 0 R
+ /Resources << /Font 1 0 R
+  /ProcSet [ /PDF
+   /Text
+   /ImageB
+   /ImageC
+   /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'R5': class PDFCatalog 
+5 0 obj
+% Document Root
+<< /Outlines 9 0 R
+ /PageMode /UseNone
+ /Pages 7 0 R
+ /Type /Catalog >>
+endobj
+% 'R6': class PDFInfo 
+6 0 obj
+<< /Author (anonymous)
+ /CreationDate (20121107034727)
+ /Producer (ReportLab http://www.reportlab.com)
+ /Subject (unspecified)
+ /Title (untitled) >>
+endobj
+% 'R7': class PDFPages 
+7 0 obj
+% page tree
+<< /Count 1
+ /Kids [ 4 0 R ]
+ /Type /Pages >>
+endobj
+% 'R8': class PDFStream 
+8 0 obj
+% page stream
+<< /Filter [ /ASCII85Decode
+  /FlateDecode ]
+ /Length 589 >>
+stream
+Gau0??#/1K'R_Y,59/<K4&"ceq'-2^d'tUL#ULanlU,$d885`hEO"l<q=g*7
+3!?Z>:QrWh=uuDJj"#uERtp?W<FD!LdiEuVdPWEi"A!2#RU0=Q"U=Pb!]rV@
+#@\Sq*gq]`=4]um+oV0h`/n3AA$4:$0%Y`Br>=iO=$@)MEfJCPqQC^G`p&kK
+B/KlRW8lg+GSF=L\l!^B/ZmI#pdSq9]U%)KDj790K.2a1duPQ.SLE":Q%$:c
+A(aV=f0sk=gd)^oQE7,+4+M]lJSdIajf<9/;W]U(Cila4K6Mlo=+tQC&s_Xi
+nW@NZD]Nd@$ZGFBSGTCCi<+H41)b9?A:!S#/us)BD]7qM-Mm'ub"?ABa,D#p
+mNK^;^$0bnC'1#&mupY<,Uo3g?0rZ4_r/J*CCd/L4$tjo4Zj#+8G1`T657FW
+/nu51Ca[L$#\e[b<F&WZ^6W?(-;F1"@?NS7i/\]c_PecLmURXaU/?#AO1FV2
+h-"2=lZXmBHkWQ_W_=r_X^IU:X5;],lkG&s>h?K>Op>o&(iX):1<k]Kc*hNH
+(T!MEgcUJHs17n<o"W+_H1;+Kr@[m~>endstream
+
+endobj
+% 'R9': class PDFOutlines 
+9 0 obj
+<< /Count 0
+ /Type /Outlines >>
+endobj
+xref
+0 10
+0000000000 65535 f
+0000000113 00000 n
+0000000221 00000 n
+0000000386 00000 n
+0000000545 00000 n
+0000000834 00000 n
+0000000968 00000 n
+0000001164 00000 n
+0000001269 00000 n
+0000002003 00000 n
+trailer
+<< /ID 
+  % ReportLab generated PDF document -- digest (http://www.reportlab.com) 
+  [(\017\301\300Xk\322\343>\005&\267\216Hpgh) (\017\301\300Xk\322\343>\005&\267\216Hpgh)] 
+ 
+ /Info 6 0 R
+ /Root 5 0 R
+ /Size 10 >>
+startxref
+2054
+%%EOF

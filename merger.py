@@ -2,10 +2,42 @@ import os
 import csv
 import re
 
+import xlsxwriter
+from openpyxl import load_workbook
+from xtopdf.PDFWriter import PDFWriter
+
 from PyPDF2 import PdfFileMerger, PdfFileReader
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
+def make_schedule_xlsx(schedule, xlsx):
+    workbook = xlsxwriter.Workbook(xlsx)
+    worksheet = workbook.add_worksheet()
+
+    for i,timeslot in enumerate(schedule):
+        worksheet.write('A%d' % (i+1), timeslot[2])
+        worksheet.write('B%d' % (i+1), timeslot[1])
+
+    workbook.close()
+
+def turn_xlsx_into_pdf(xlsx, pdf):
+    workbook = load_workbook(xlsx, guess_types=True, data_only=True)
+    worksheet = workbook.active
+
+    pw = PDFWriter(pdf)
+    pw.setFont('Courier', 12)
+
+    ws_range = worksheet['A1:H50']
+    for row in ws_range:
+        s = ''
+        for cell in row:
+            if cell.value is None:
+                s += ' ' * 11
+            else:
+                s += str(cell.value).rjust(10) + ' '
+        pw.writeLine(s)
+    pw.savePage()
+    pw.close()
 
 def clean_text(s):
     s = s.lower()
@@ -36,11 +68,14 @@ def clean_student_row(row):
     We don't care about the last two.
     """
     company = row[0].lower()
-    raw_student_info = row[1:4]
-    student_info = ''.join(raw_student_info)
-    student_info = clean_text(student_info)
+    if row[1] != 'break':
+        raw_student_info = row[1:4]
+        student_info = ''.join(raw_student_info)
+        student_info = clean_text(student_info)
+    else:
+        student_info = 'break'
 
-    return company, student_info
+    return company, student_info, row
 
 def read_student_file(filename, extension='.pdf'):
     companies = {}
@@ -49,23 +84,25 @@ def read_student_file(filename, extension='.pdf'):
         for i, row in enumerate(reader):
             if i is 0:
                 continue
-            company, student_info = clean_student_row(row)
-            student_info = student_info + extension
+            company, student_info, data = clean_student_row(row)
+            if student_info != 'break':
+                student_info = student_info + extension
+            profile = (student_info, data[4], data[2])
             if company in companies:
-                companies[company].append(student_info)
+                companies[company].append(profile)
             else:
-                companies[company] = [student_info]
+                companies[company] = [profile]
     return companies
 
 def write_and_merge_pdfs(company, student_filenames):
     print('creating pdf for', company)
+    print student_filenames
     merger = PdfFileMerger(strict=False)
 
     for student_filename in student_filenames:
-        print('looking for student filename')
-        print(student_filename)
+        print student_filename
         try:
-            merger.append(PdfFileReader(open(os.path.join(dir_path, 'data', student_filename), 'rb'), strict=False))
+            merger.append(PdfFileReader(open(student_filename, 'rb'), strict=False))
         except Exception as e:
             print(e)
 
@@ -80,6 +117,11 @@ def normalize_data_files(loc=os.path.join(dir_path, 'data')):
             '/'.join([loc, cleaned_filename]),
         )
 
+def list_of_files_to_merge(schedule, student_tuples):
+    files = [schedule]
+    for t in student_tuples:
+        files.append(os.path.join(dir_path, 'data', t[0]))
+    return files
 
 if __name__ == '__main__':
     print('-> Starting Script')
@@ -98,4 +140,11 @@ if __name__ == '__main__':
         if company == '':
             pass
         else:
-          write_and_merge_pdfs(company, student_company_mapping[company])
+            xlsx = os.path.join(dir_path, 'schedule.xlsx')
+            make_schedule_xlsx(student_company_mapping[company], xlsx)
+            if not os.path.isdir(os.path.join(dir_path, 'schedules')):
+                os.mkdir(os.path.join(dir_path, 'schedules'))
+            pdf = os.path.join(dir_path, 'schedules', company + '-schedule.pdf')
+            turn_xlsx_into_pdf(xlsx, pdf)
+            files_to_merge = list_of_files_to_merge(pdf, student_company_mapping[company])
+            write_and_merge_pdfs(company, files_to_merge)

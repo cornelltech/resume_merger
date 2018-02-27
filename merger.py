@@ -1,3 +1,4 @@
+import datetime
 import os
 import csv
 import re
@@ -15,8 +16,10 @@ def make_schedule_xlsx(schedule, xlsx):
     worksheet = workbook.add_worksheet()
 
     for i,timeslot in enumerate(schedule):
-        worksheet.write('A%d' % (i+1), timeslot[2])
-        worksheet.write('B%d' % (i+1), timeslot[1])
+        time24 = datetime.datetime.strptime(timeslot[1], '%H%M')
+        time12 = datetime.datetime.strftime(time24, '%I:%M%p')
+        worksheet.write('B%d' % (i+3), timeslot[2])
+        worksheet.write('D%d' % (i+3), time12)
 
     workbook.close()
 
@@ -96,8 +99,7 @@ def read_student_file(filename, extension='.pdf'):
     return companies
 
 def write_and_merge_pdfs(company, student_filenames):
-    print('creating pdf for', company)
-    print student_filenames
+    print 'creating pdf for', company
     merger = PdfFileMerger(strict=False)
 
     for student_filename in student_filenames:

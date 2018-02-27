@@ -92,6 +92,7 @@ def read_student_file(filename, extension='.pdf'):
                 companies[company].append(profile)
             else:
                 companies[company] = [profile]
+            companies[company].sort(key = lambda tup: tup[1])
     return companies
 
 def write_and_merge_pdfs(company, student_filenames):
@@ -100,7 +101,6 @@ def write_and_merge_pdfs(company, student_filenames):
     merger = PdfFileMerger(strict=False)
 
     for student_filename in student_filenames:
-        print student_filename
         try:
             merger.append(PdfFileReader(open(student_filename, 'rb'), strict=False))
         except Exception as e:
@@ -119,6 +119,8 @@ def normalize_data_files(loc=os.path.join(dir_path, 'data')):
 
 def list_of_files_to_merge(schedule, student_tuples):
     files = [schedule]
+    student_tuples.sort(key = lambda tup: tup[1])
+    student_tuples = filter(lambda tup: tup[0] != 'break', student_tuples)
     for t in student_tuples:
         files.append(os.path.join(dir_path, 'data', t[0]))
     return files

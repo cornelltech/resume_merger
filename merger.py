@@ -4,6 +4,8 @@ import re
 
 from PyPDF2 import PdfFileMerger, PdfFileReader
 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
 
 def clean_text(s):
     s = s.lower()
@@ -63,13 +65,13 @@ def write_and_merge_pdfs(company, student_filenames):
         print('looking for student filename')
         print(student_filename)
         try:
-            merger.append(PdfFileReader(open('/Users/kristinaortiz/Desktop/resume_merger/data/' + student_filename, 'rb'), strict=False))
+            merger.append(PdfFileReader(open(os.path.join(dir_path, 'data', student_filename), 'rb'), strict=False))
         except Exception as e:
             print(e)
 
-    merger.write('/Users/kristinaortiz/Desktop/resume_merger/dist/' + company + '.pdf')
+    merger.write(os.path.join(dir_path, 'dist', company + '.pdf'))
 
-def normalize_data_files(loc='/Users/kristinaortiz/Desktop/resume_merger/data'):
+def normalize_data_files(loc=os.path.join(dir_path, 'data')):
     file_list = os.listdir(loc)
     for filename in file_list:
         cleaned_filename = clean_filename(filename)
@@ -86,11 +88,11 @@ if __name__ == '__main__':
     normalize_data_files()
     print('-- Done')
 
-    dist = '/Users/kristinaortiz/Desktop/resume_merger/dist'
+    dist = os.path.join(dir_path, 'dist')
     if not os.path.exists(dist):
         os.makedirs(dist)
 
-    filename = '/Users/kristinaortiz/Desktop/resume_merger/students.csv'
+    filename = os.path.join(dir_path, 'students.csv')
     student_company_mapping = read_student_file(filename)
     for company in student_company_mapping:
         if company == '':

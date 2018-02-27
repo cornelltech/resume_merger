@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 import os
 import csv
 import re
@@ -11,23 +9,24 @@ def clean_text(s):
     s = s.lower()
     # ref: https://stackoverflow.com/questions/14361556/remove-all-special-characters-in-java
     s = re.sub(
-           r"[^a-zA-Z0-9]", 
+           r"[^a-zA-Z0-9]",
            '',
-           s, 
+           s,
        )
     # we want to trim the year in the back because it will be inconsistent
     # and a source of error because its so arbitrary and breakable.
     s = ''.join(
         [ s[0:-4], re.sub(
-           r"\d+", 
+           r"\d+",
            '',
-           s[-4:], 
+           s[-4:],
        ) ]
     )
     return s
 
 def clean_filename(filename, extension='.pdf'):
-    return clean_text(filename.replace(extension, '')) + extension
+    if filename:
+        return clean_text(filename.replace(extension, '')) + extension
 
 def clean_student_row(row):
     """company,netid,first last name, program/year, time, comment
@@ -35,7 +34,7 @@ def clean_student_row(row):
     We don't care about the last two.
     """
     company = row[0].lower()
-    raw_student_info = row[1:-2]
+    raw_student_info = row[1:4]
     student_info = ''.join(raw_student_info)
     student_info = clean_text(student_info)
 
@@ -54,22 +53,23 @@ def read_student_file(filename, extension='.pdf'):
                 companies[company].append(student_info)
             else:
                 companies[company] = [student_info]
-            # print(clean_student_row(row))
     return companies
 
 def write_and_merge_pdfs(company, student_filenames):
     print('creating pdf for', company)
-    merger = PdfFileMerger()
+    merger = PdfFileMerger(strict=False)
 
     for student_filename in student_filenames:
+        print('looking for student filename')
+        print(student_filename)
         try:
-            merger.append(PdfFileReader(file('./data/' + student_filename, 'rb')))
+            merger.append(PdfFileReader(open('/Users/kristinaortiz/Desktop/resume_merger/data/' + student_filename, 'rb'), strict=False))
         except Exception as e:
             print(e)
-        
-    merger.write('dist/' + company + '.pdf')
 
-def normalize_data_files(loc='./data'):
+    merger.write('/Users/kristinaortiz/Desktop/resume_merger/dist/' + company + '.pdf')
+
+def normalize_data_files(loc='/Users/kristinaortiz/Desktop/resume_merger/data'):
     file_list = os.listdir(loc)
     for filename in file_list:
         cleaned_filename = clean_filename(filename)
@@ -86,17 +86,14 @@ if __name__ == '__main__':
     normalize_data_files()
     print('-- Done')
 
-    dist = './dist'
+    dist = '/Users/kristinaortiz/Desktop/resume_merger/dist'
     if not os.path.exists(dist):
         os.makedirs(dist)
 
-    filename = 'students.csv'
+    filename = '/Users/kristinaortiz/Desktop/resume_merger/students.csv'
     student_company_mapping = read_student_file(filename)
     for company in student_company_mapping:
-        write_and_merge_pdfs(company, student_company_mapping[company])
-
-    # f = 'Ebk46evankestenCM18.pdf'
-
-    # print('*'*50)
-
-    # print( clean_filename(f) )
+        if company == '':
+            pass
+        else:
+          write_and_merge_pdfs(company, student_company_mapping[company])
